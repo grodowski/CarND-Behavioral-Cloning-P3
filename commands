@@ -1,0 +1,5 @@
+# copy data to ec2 box
+rsync -acvzrt data carnd@35.158.3.168:~/code/CarND-Behavioral-Cloning-P3/
+
+# dl model from ec2
+rsync -acvzrt carnd@35.158.3.168:~/code/CarND-Behavioral-Cloning-P3/model/ model/
