@@ -16,16 +16,16 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./sim_autonomous.png
-[image2]: ./steering_00444.png
-[image3]: ./steering_m00444.png
-[image4]: ./steering_left_015.png
-[image5]: ./steering_right_m024.png
-[image6]: ./hist_before_pruning.png
-[image7]: ./hist_after_pruning.png
-[image8]: ./loss_with_one_convolution.png
-[image9]: ./perfect_loss_after_resize_to_32x32.png
-[image10]: ./hist_before_after_pruning.png
+[image1]: ./img/sim_autonomous.png
+[image2]: ./img/steering_00444.png
+[image3]: ./img/steering_m00444.png
+[image4]: ./img/steering_left_015.png
+[image5]: ./img/steering_right_m024.png
+[image6]: ./img/hist_before_pruning.png
+[image7]: ./img/hist_after_pruning.png
+[image8]: ./img/loss_with_one_convolution.png
+[image9]: ./img/perfect_loss_after_resize_to_32x32.png
+[image10]: ./img/hist_before_after_pruning.png
 
 ![sim screenshot][image1]
 
