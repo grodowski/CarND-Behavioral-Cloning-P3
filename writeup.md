@@ -16,7 +16,7 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/placeholder.png "Model Visualization"
+[image1]: ./sim_autonomous.png
 [image2]: ./steering_00444.png
 [image3]: ./steering_m00444.png
 [image4]: ./steering_left_015.png
@@ -26,6 +26,8 @@ The goals / steps of this project are the following:
 [image8]: ./loss_with_one_convolution.png
 [image9]: ./perfect_loss_after_resize_to_32x32.png
 [image10]: ./hist_before_after_pruning.png
+
+![sim screenshot][image1]
 
 ---
 ###Files Submitted & Code Quality
@@ -68,7 +70,7 @@ The model.py file contains the code for training and saving the convolution neur
 
 My model consists of a convolutional neural network with two 32x3x3 filters. (model.py lines 116-119)
 
-The model includes ELU activations to introduce nonlinearity (lines 113-127), and the data is normalized in the model using a Keras lambda layer (code line 115).
+The model includes RELU activations to introduce nonlinearity (lines 113-127), and the data is normalized in the model using a Keras lambda layer (code line 115).
 
 ####2. Attempts to reduce overfitting in the model
 
@@ -82,7 +84,7 @@ The model used an adam optimizer, so the learning rate was not tuned manually (m
 
 ####4. Appropriate training data
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving and recovering from the left and right sides of the road.
+Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving and recovering from the left and right sides of the road. After including a lap on Track 2 the car became even more stable on Track 1.
 
 For details about how I created the training data, see the next section.
 
@@ -112,27 +114,23 @@ The final model architecture (model.py lines 113 - 127) consisted of a convoluti
 | 1 | Cropping2D | top 10px, bottom 4px |
 | 2 | Lambda | | mean variance normalization |
 | 3 | Conv2D | 32 filters, 3x3 |
-| 4 | ELU | activation |
+| 4 | Activation | RELU |
 | 5 | MaxPooling2D | 2x2 |
 | 6 | Dropout | 0.5 keep prob |
 | 7 | Conv2D | 32 filters, 3x3 |
-| 8 | ELU | activation |
+| 8 | Activation | RELU |
 | 9 | MaxPooling2D | 2x2 |
 | 10 | Dropout | 0.5 keep prob |
 | 11 | Flatten | |
 | 12 | Fully Connected 1 | 128 |
-| 13 | ELU | activation |
+| 13 | Activation | RELU |
 | 14 | Fully Connected 2 | 16 |
-| 15 | ELU | activation |
+| 15 | Activation | RELU |
 | 16 | Output | 1 |
-
-Please note that ELU activations has been used, which proved to help the model
-give stronger steering responses in extreme situations, like reaching the end of
-drivable surface.
 
 ####3. Creation of the Training Set & Training Process
 
-To capture good driving behavior, I first recorded one laps on track one using center lane driving. Then I recorded another lap with just recoveries and cornering. Here is an example of one images and its augmentations after resizing to `32x32x3`.
+To capture good driving behavior, I first recorded one laps on track one using center lane driving. Then I recorded another lap with just recoveries and cornering. Finally a lap on Track 2 has been added. Here is an example of one image sample and its augmentations after resizing to `32x32x3`.
 
 | Image | Augmentation type | Steering angle |
 |:------:|:----------------:|:--------------:|
@@ -142,14 +140,13 @@ To capture good driving behavior, I first recorded one laps on track one using c
 | ![rcam][image5] | Right Camera (steering-epsilon) | `-0.24` |
 
 
-After the collection process, I had 6439 sample images, which makes up a total of 25756 samples after augmentation.
 The final preprocessing step before training was a simple pruning algorithm to improve the distribution of steering values. (model.py lines 40-59)
 
 Steering Angle Histogram Before/After Pruning
 
 ![hist_before][image10]
 
-I finally randomly shuffled the data set and put 20% of the data into a validation set. I used this training data for training the model, while the validation set helped determine if the model was over or under fitting.
+After the collection and preprocessing, I had **13440** sample images, which I finally randomly shuffled and put 20% of the data into a validation set. I used this training data for training the model, while the validation set helped determine if the model was over or under fitting.
 
 The below training/validation loss graph represents the best results I obtained after training for 5 epochs.
 
@@ -157,10 +154,15 @@ The below training/validation loss graph represents the best results I obtained 
 
 ### Final remarks
 
-* This **Behavioral Cloning** project raised even more interesting questions about developing neural networks
-* The network is still behaving poorly on Track 2.
-* Improvements to try next:
-  * More augmentations: image shifts, rotations, brightness
-  * Collecting more data (from Track 2)
-  * Experiments with more convolutional layers
+The  **Behavioral Cloning** project raised even more interesting questions about developing neural networks. I have listed things to try next to further improve the model driving behavior as well as code quality. Currently, `model.h5` cannot handle a full lap on simulator track 2 (just first 5 - 6 turns at low speed). Track 2 includes sharp turns, lanes, hills and more difficult lighting conditions.
 
+Things to try:
+
+* More augmentations: image shifts, rotations, brightness (shadows)
+* Collecting more data (from Track 2)
+* Experiments with more convolutional layers
+* NVIDIA architecture
+
+---
+
+The submitted `video.mp4` includes 3 clean autonomous laps on Track 1.
