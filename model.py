@@ -23,7 +23,7 @@ with open('{}/driving_log.csv'.format(args.d)) as f_csv:
 
 # drop csv headers that may exist
 telemetry = np.array(telemetry[1:])
-    
+
 center_im_idx =      0
 left_im_idx =        1
 right_im_idx =       2
